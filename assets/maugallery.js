@@ -61,9 +61,12 @@
     $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
     $(".gallery").on("click", ".mg-prev", () =>
       $.fn.mauGallery.methods.prevImage(options.lightboxId)
+
     );
     $(".gallery").on("click", ".mg-next", () =>
-      $.fn.mauGallery.methods.nextImage(options.lightboxId)
+     {$.fn.mauGallery.methods.nextImage(options.lightboxId);
+
+    } 
     );
   };
   $.fn.mauGallery.methods = {
@@ -146,7 +149,7 @@
           }
         });
       }
-      let index = 0,
+      let index = imagesCollection.length,
         next = null;
 
       $(imagesCollection).each(function(i) {
@@ -154,16 +157,21 @@
           index = i ;
         }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
+      if (index > 0) {
+        next = imagesCollection[index - 1];
+      } else {
+        next = imagesCollection[imagesCollection.length - 1]; 
+      }
+      
       $(".lightboxImage").attr("src", $(next).attr("src"));
+      console.log("prevImage", next)
     },
     nextImage() {
       let activeImage = null;
       $("img.gallery-item").each(function() {
         if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
           activeImage = $(this);
+          console.log(activeImage)
         }
       });
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
@@ -191,10 +199,20 @@
       $(imagesCollection).each(function(i) {
         if ($(activeImage).attr("src") === $(this).attr("src")) {
           index = i;
+          console.log("index", index)
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
+      // next = imagesCollection[index] || imagesCollection[0];
+      // $(".lightboxImage").attr("src", $(next).attr("src"));
+     
+      next = imagesCollection[++index]; 
+     
+
+          
       $(".lightboxImage").attr("src", $(next).attr("src"));
+      console.log("imageColl",imagesCollection.indexOf(next));
+      // console.log("next_Index",imagesCollection[index])
+      // console.log("next Image",next)
     },
     createLightBox(gallery, lightboxId, navigation) {
       gallery.append(`<div class="modal fade" id="${
@@ -203,17 +221,18 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
-                            ${
-                              navigation
-                                ? '<div class="mg-prev" style="cursor:pointer;position:absolute;top:50%;left:-15px;background:white;"><</div>'
-                                : '<span style="display:none;" />'
-                            }
-                            <img class="lightboxImage img-fluid" alt="Contenu de l'image affichée dans la modale au clique"/>
-                            ${
-                              navigation
-                                ? '<div class="mg-next" style="cursor:pointer;position:absolute;top:50%;right:-15px;background:white;}">></div>'
-                                : '<span style="display:none;" />'
-                            }
+                        ${
+                          navigation
+                          ? '<div class="mg-prev" style="cursor:pointer;position:absolute;top:50%;left:-15px;background:white;">&lt;</div>'
+                          : '<span style="display:none;"></span>'
+                      }
+                      <img class="lightboxImage img-fluid" alt="Contenu de l'image affichée dans la modale au clique"/>
+                      ${
+                          navigation
+                          ? '<div class="mg-next" style="cursor:pointer;position:absolute;top:50%;right:-15px;background:white;">&gt;</div>'
+                          : '<span style="display:none;"></span>'
+                      }
+                      
                         </div>
                     </div>
                 </div>
@@ -241,7 +260,7 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      $(this).addClass("active active-tag");
 
       var tag = $(this).data("images-toggle");
 
