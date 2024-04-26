@@ -239,6 +239,11 @@ input[type="submit"] {
 	padding: .5em 1em
 }
 
+figure {
+	width: 300px; 
+	height: auto; 
+  }
+
 @media all and (max-width: 1180px) {
 	.picture {
 		flex : 2;
@@ -347,5 +352,9 @@ input[type="submit"] {
 	.picture {
 		width: 80%;
 	}
+
+	figure {
+		width: 100%; 
+	  }
 }
 

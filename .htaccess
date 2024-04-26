@@ -17,9 +17,9 @@ BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
  Header set Cache-Control "max-age=2592000, public"
  </FilesMatch>
  <FilesMatch "\.(js)$">
-Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
-Header set Permissions-Policy "unload=()"
-</FilesMatch>
+ Header set Cache-Control "max-age=2592000, private"
+ Header set Permissions-Policy "unload=()"
+ </FilesMatch>
 <filesMatch "\.(html|htm)$">
 Header set Cache-Control "max-age=7200, public"
 </filesMatch>
